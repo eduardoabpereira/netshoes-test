@@ -9,20 +9,38 @@ const ProductWrapper = styled.div`
   width: 33%;
   box-sizing: border-box;
   display: inline-block;
+  text-align: center;
+  margin-bottom: 3em;
+  vertical-align: top;
+  cursor: pointer;
+`;
+
+const StyledImage = styled(Image)`
+  margin-bottom: 10px;
+`;
+const StyledProductName = styled(ProductName)`
+  margin-bottom: 10px;
 `;
 
 const Product = ({
   hasInstallment,
   price,
+  principalPrice,
+  restPrice,
   image,
   installment,
   productName,
-  currencyCode
+  currencyCode,
+  ...props
 }) => (
-  <ProductWrapper>
-    <Image image={image} />
-    <ProductName productName={productName} />
-    <Price price={price} currencyCode={currencyCode} />
+  <ProductWrapper {...props}>
+    <StyledImage image={image} />
+    <StyledProductName productName={productName} />
+    <Price
+      currencyCode={currencyCode}
+      principalPrice={principalPrice}
+      restPrice={restPrice}
+    />
     {hasInstallment && (
       <Installment
         price={price}
