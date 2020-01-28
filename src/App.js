@@ -4,12 +4,12 @@
  *    Verificar se id adicionado já existe no cart e caso positivo, adicionar chave de quantidade.
  * + Implementar visual do carrinho
  * + Deixar carrinho fixed
- * + Implementar subtotal
+ * DONE Implementar subtotal
  * + Implementar botão pra visualizar carrinho (header?)
  * + Implementar persistência do carrinho (localstorage)
  * + Implementar testes
  * + Documentação
- * + Implementar remove from cart
+ * DONE Implementar remove from cart
  */
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
@@ -35,15 +35,32 @@ const Close = styled.p`
   line-height: 30px;
   cursor: pointer;
   position: absolute;
-  right: 100%;
+  left: 0;
   top: 0;
-  background: #333;
+`;
+
+const Header = styled.div`
+  width: 100%;
+  display: block;
+  background: black;
+  color: white;
+  padding: 20px 0;
+  margin-bottom: 30px;
+`;
+
+const HandleMiniCart = styled.button`
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  outline: none;
 `;
 
 class App extends React.PureComponent {
   state = {
     open: false,
-    cart: []
+    cart: [],
+    subTotalCart: 0
   }
   componentDidMount() {
     const { dispatch } = this.props;
@@ -51,20 +68,49 @@ class App extends React.PureComponent {
     dispatch(getProducts())
   }
 
+  updateCart = (action) => {
+    const { cart } = this.state;
 
-  addProduct = (id) => {
+    let subtotal = 0;
+
+    if (action === 'remove') {
+      for (let i = 0; i < cart.length; i++) {
+        subtotal += cart[i].price;
+      }
+      return this.setState({ subTotalCart: subtotal });
+    }
+
+    for (let i = 0; i < cart.length; i++) {
+      subtotal += cart[i].price;
+    }
+    return this.setState({ subTotalCart: subtotal });
+  }
+
+
+  addProduct = (sku) => {
     const { products } = this.props;
     const { cart } = this.state;
-    const add = products.products.filter(product => product.id === id)[0];
-    const pushing = [...cart];
-    pushing.push(add);
+    const add = products.products.filter(product => product.sku === sku)[0];
 
-    this.setState({ cart: pushing, open: true }, () => console.log('product added to cart!'));
+    return this.setState({ cart: [...cart, add], open: true }, () => this.updateCart('add'));
+  }
+
+  removeItem = (sku) => {
+    const { cart } = this.state;
+    const remainedItems = cart.filter(item => item.sku !== sku);
+
+    return this.setState({ cart: remainedItems }, () => this.updateCart('remove'));
+  }
+
+  getMaxInstallments() {
+    const { cart } = this.state;
+
+    return Math.max.apply(Math, cart.map(item => item.installments))
   }
 
   render() {
     const { products } = this.props;
-    const { cart, open } = this.state;
+    const { cart, open, subTotalCart } = this.state;
 
     if (!Object.keys(products).length) {
       return 'Carregando...';
@@ -74,13 +120,16 @@ class App extends React.PureComponent {
       <div className="App">
         <Reset />
         <GlobalStyle />
+        <Header>
+          <HandleMiniCart onClick={() => this.setState({ open: !open })} qty={cart.length}>{`Sacola(${cart.length})`}</HandleMiniCart>
+        </Header>
         <Shelf>
           {products.products.map(product => {
             const principalPrice = Math.floor(product.price);
             const restPrice = (product.price % 1).toFixed(2).substring(2);
             return (
               <Product
-                key={product.id}
+                key={product.sku}
                 image={cat}
                 productName={product.title}
                 hasInstallment={!!product.installments}
@@ -89,7 +138,7 @@ class App extends React.PureComponent {
                 principalPrice={principalPrice}
                 restPrice={restPrice}
                 currencyCode={product.currencyFormat}
-                onClick={() => this.addProduct(product.id)}
+                onClick={() => this.addProduct(product.sku)}
               />
             )
           })}
@@ -98,6 +147,10 @@ class App extends React.PureComponent {
           isOpen={open}
           close={<Close onClick={() => this.setState({ open: false })}>X</Close>}
           items={cart}
+          removeItem={this.removeItem}
+          subTotalCart={subTotalCart}
+          maxInstallments={this.getMaxInstallments()}
+          totalByInstallments={subTotalCart / this.getMaxInstallments()}
         />
       </div>
     );

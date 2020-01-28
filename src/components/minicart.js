@@ -45,7 +45,7 @@ const CartHeader = styled.div`
 
 const CartIco = styled.p`
   display: inline-block;
-  background: yellow;
+  background: orange;
   color: black;
   text-align: center;
   border-radius: 50%;
@@ -56,12 +56,17 @@ const CartIco = styled.p`
 `;
 
 const CartBody = styled.div`
-  display: block;
+  display: ${p => !p.hasItems ? 'flex' : 'block'};
+  ${p => !p.hasItems && (
+    `flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  `)}
   width: 100%;
   text-align: center;
   font: 13px Arial;
   overflow: auto;
-  height: 207px;
+  height: 228px;
   padding-right: 10px;
   ::-webkit-scrollbar {
     width: 10px;
@@ -103,18 +108,18 @@ const ProductItem = styled.div`
   padding: 10px 0;
   border-bottom: 1px solid black;
   text-align: left;
-  h2 {
-    display: inline-block;
-  }
+  display: flex;
+  width: 100%;
 `;
 
 const CartImage = styled(Image)`
-  display: inline-block;
+  display: inline-flex;
   vertical-align: middle;
   margin-right: 1em;
 `;
 
-const Button = styled.button`
+const BuyButton = styled.button`
+  display: ${p => p.hasItems ? 'block' : 'none'};
   background: black;
   color: white;
   text-align: center;
@@ -128,37 +133,162 @@ const Button = styled.button`
   outline: none;
 `;
 
+const ProductLeft = styled.div`
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 80%;
+`;
+
+const ProductDescription = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+`;
+
+const ProductRight = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  width: 20%;
+`;
+
+const ProductSku = styled.span`
+  display: block;
+  margin: 5px 0;
+`;
+
+const ProductQty = styled.span`
+  display: block;
+`;
+
+const ProductRemove = styled.button`
+  display: block;
+  background: none;
+  border: none;
+  color: black;
+  font: bold 12px Arial;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  &:hover {
+    color: white;
+  }
+`;
+
+const ProductPriceWrapper = styled.div`
+  display: block;
+  color: orange;
+  font: 16px Arial;
+`;
+
+const ProductCurrency = styled.span`
+  display: initial;
+`;
+
+const ProductPrincipalPrice = styled.span`
+  display: inline-block;
+  font-weight: bold;
+`;
+
+const ProductRestPrice = styled.span`
+  display: inline-block;
+`;
+
+const SubtotalPriceWrapper = styled(ProductPriceWrapper)`
+  font-size: 24px;
+  text-align: right;
+`;
+const SubtotalCurrency = styled(ProductCurrency)``;
+const SubtotalPrincipalPrice = styled(ProductPrincipalPrice)``;
+const SubtotalRestPrice = styled(ProductRestPrice)``;
+const SubtotalTitle = styled.span`
+  text-transform: uppercase;
+  color: lightgrey;
+`;
+
+const SubtotalWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3em;
+`;
+
+const SubtotalInstallments = styled.span``;
+
+const SubtotalWithInstallments = styled.div``;
 
 class MiniCart extends React.Component {
   renderCart() {
-    const { items } = this.props;
+    const { items, removeItem } = this.props;
 
-    return items.map(item => (
-      <ProductItem>
-        <CartImage image={cat} width={48} height={48} />
-        <ProductName productName={item.title} />
-      </ProductItem>
-    ))
+    return items.map((item, index) => {
+      const principalPrice = Math.floor(item.price);
+      const restPrice = (item.price % 1).toFixed(2).substring(2);
+      return (
+        <ProductItem key={index}>
+          <ProductLeft>
+            <CartImage image={cat} width={48} height={48} />
+            <ProductDescription>
+              <ProductName productName={item.title} />
+              <ProductSku>GGG | Preto e Branco</ProductSku>
+              <ProductQty>Quantidade: 1</ProductQty>
+            </ProductDescription>
+          </ProductLeft>
+          <ProductRight>
+            <ProductRemove onClick={() => removeItem(item.sku)}>X</ProductRemove>
+            <ProductPriceWrapper>
+              <ProductCurrency>{`R$ `}</ProductCurrency>
+              <ProductPrincipalPrice>{principalPrice}</ProductPrincipalPrice>
+              <ProductRestPrice>{`,${restPrice}`}</ProductRestPrice>
+            </ProductPriceWrapper>
+          </ProductRight>
+        </ProductItem>
+      )
+    })
   }
 
   render() {
-    const { isOpen, close, items } = this.props;
-    console.log('cart => ', items)
+    const {
+      isOpen,
+      close,
+      items,
+      subTotalCart,
+      maxInstallments,
+      totalByInstallments
+    } = this.props;
+
+    const subtotalPrincipalPrice = subTotalCart.toFixed(2).toString().split('.')[0];
+    const subtotalRestPrice = (subTotalCart % 1).toFixed(2).substring(2);
     return (
       <MiniCartWrapper isOpen={isOpen}>
         <CartClose>{close}</CartClose>
         <CartContent>
         <CartHeader>
-          <CartIco>3</CartIco>
+          <CartIco>{items.length}</CartIco>
           <CartTitle>Sacola</CartTitle>
         </CartHeader>
-        <CartBody>
+        <CartBody hasItems={items.length}>
           {!items.length && 'Sua sacola está vazia!'}
           {this.renderCart()}
         </CartBody>
-        <CartFooter>
-          <Button>Comprar</Button>
-        </CartFooter>
+        {items.length ? (
+          <CartFooter>
+            <SubtotalWrapper>
+              <SubtotalTitle>Subtotal</SubtotalTitle>
+              <SubtotalWithInstallments>
+                <SubtotalPriceWrapper>
+                  <SubtotalCurrency>{`R$ `}</SubtotalCurrency>
+                  <SubtotalPrincipalPrice>{subtotalPrincipalPrice}</SubtotalPrincipalPrice>
+                  <SubtotalRestPrice>{`,${subtotalRestPrice}`}</SubtotalRestPrice>
+                </SubtotalPriceWrapper>
+                <SubtotalInstallments>{`ou em até ${maxInstallments > 0 ? maxInstallments : 1}x R$ ${maxInstallments > 0 ? totalByInstallments.toFixed(2).replace('.', ',') : subTotalCart.toFixed(2).replace('.', ',')}`}</SubtotalInstallments>
+              </SubtotalWithInstallments>
+            </SubtotalWrapper>
+            <BuyButton hasItems={items.length}>Comprar</BuyButton>
+          </CartFooter>
+        ) : null}
         </CartContent>
       </MiniCartWrapper>
     )
