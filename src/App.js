@@ -3,13 +3,13 @@
  * + Implementar incremento de quantidade ao clicar no produto
  *    Verificar se id adicionado já existe no cart e caso positivo, adicionar chave de quantidade.
  * + Implementar visual do carrinho
- * + Deixar carrinho fixed
+ * DONE Deixar carrinho fixed
  * DONE Implementar subtotal
  * + Implementar botão pra visualizar carrinho (header?)
  * + Implementar persistência do carrinho (localstorage)
+ * DONE Implementar remove from cart
  * + Implementar testes
  * + Documentação
- * DONE Implementar remove from cart
  */
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
@@ -60,7 +60,8 @@ class App extends React.PureComponent {
   state = {
     open: false,
     cart: [],
-    subTotalCart: 0
+    subTotalCart: 0,
+    selectedUda: {}
   }
   componentDidMount() {
     const { dispatch } = this.props;
@@ -75,13 +76,13 @@ class App extends React.PureComponent {
 
     if (action === 'remove') {
       for (let i = 0; i < cart.length; i++) {
-        subtotal += cart[i].price;
+        subtotal += cart[i].price * cart[i].quantidade;
       }
       return this.setState({ subTotalCart: subtotal });
     }
 
     for (let i = 0; i < cart.length; i++) {
-      subtotal += cart[i].price;
+      subtotal += cart[i].price * cart[i].quantidade;
     }
     return this.setState({ subTotalCart: subtotal });
   }
@@ -90,9 +91,18 @@ class App extends React.PureComponent {
   addProduct = (sku) => {
     const { products } = this.props;
     const { cart } = this.state;
-    const add = products.products.filter(product => product.sku === sku)[0];
+    const fromProduct = products.products.filter(product => product.sku === sku);
+    fromProduct[0].quantidade = 1;
+    const add = cart.length ?
+      cart.map(item => item.sku === sku ? {...item, quantidade: item.quantidade + 1} : item) : fromProduct[0];
+    const hasInCart = cart.some(el => el.sku === sku)
+    const newCart = hasInCart ? [...add] : [...cart, ...fromProduct]
 
-    return this.setState({ cart: [...cart, add], open: true }, () => this.updateCart('add'));
+    if (!cart.length) {
+      return this.setState({ cart: [...cart, { ...add, quantidade: 1 }], open: true }, () => this.updateCart('add'))
+    }
+
+    return this.setState({ cart: [...newCart], open: true }, () => this.updateCart('add'))
   }
 
   removeItem = (sku) => {
@@ -108,9 +118,18 @@ class App extends React.PureComponent {
     return Math.max.apply(Math, cart.map(item => item.installments))
   }
 
+  // handleSelectUda(e, sku) {
+  //   const { products } = this.props;
+  //   const { selectedUda } = this.state;
+  //   return products.products.map(product => {
+  //     console.log('teste: ', selectedUda)
+  //     return product.sku === sku && product.availableSizes.includes(e.target.value) && this.setState({ selectedUda: { sku, size: e.target.value } })
+  //   });
+  // }
+
   render() {
     const { products } = this.props;
-    const { cart, open, subTotalCart } = this.state;
+    const { cart, open, subTotalCart, selectedUda } = this.state;
 
     if (!Object.keys(products).length) {
       return 'Carregando...';
@@ -139,6 +158,11 @@ class App extends React.PureComponent {
                 restPrice={restPrice}
                 currencyCode={product.currencyFormat}
                 onClick={() => this.addProduct(product.sku)}
+                // hasUda={product.availableSizes.length}
+                // udas={product.availableSizes}
+                // handleSelectUda={this.handleSelectUda.bind(this)}
+                // udaSelected={selectedUda}
+                // sku={product.sku}
               />
             )
           })}

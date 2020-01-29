@@ -1,9 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import Image from './image';
-import Price from './price';
-import Installment from './installment';
-import ProductName from './productName';
+import Image from './product/image';
+import Price from './product/price';
+import Installment from './product/installment';
+import ProductName from './product/productName';
+// import Uda from './product/selectUda';
 
 const ProductWrapper = styled.div`
   width: 33%;
@@ -12,7 +13,6 @@ const ProductWrapper = styled.div`
   text-align: center;
   margin-bottom: 3em;
   vertical-align: top;
-  cursor: pointer;
 `;
 
 const StyledImage = styled(Image)`
@@ -20,6 +20,18 @@ const StyledImage = styled(Image)`
 `;
 const StyledProductName = styled(ProductName)`
   margin-bottom: 10px;
+`;
+const ButtonBuy = styled.button`
+  width: 80%;
+  margin: 10px auto;
+  background: black;
+  color: white;
+  text-align: center;
+  padding: 8px 0;
+  text-transform: uppercase;
+  border: none;
+  outline: none;
+  cursor: pointer;
 `;
 
 const Product = ({
@@ -31,6 +43,12 @@ const Product = ({
   installment,
   productName,
   currencyCode,
+  hasUda,
+  udas,
+  handleSelectUda,
+  onClick,
+  sku,
+  udaSelected,
   ...props
 }) => (
   <ProductWrapper {...props}>
@@ -48,6 +66,10 @@ const Product = ({
         currencyCode={currencyCode}
       />
     )}
+    {/* {hasUda && udas.map((uda, index) => (
+      <Uda key={index} onClick={e => handleSelectUda(e, sku)} selected={udaSelected} sku={sku}>{uda}</Uda>
+    ))} */}
+    <ButtonBuy onClick={onClick}>Comprar</ButtonBuy>
   </ProductWrapper>
 )
 

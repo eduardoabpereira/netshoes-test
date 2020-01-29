@@ -1,8 +1,8 @@
 import React from 'react';
 import styled, { keyframes } from 'styled-components';
-import ProductName from './productName';
+import ProductName from './product/productName';
 import cat from '../cat.jpg';
-import Image from './image';
+import Image from './product/image';
 
 const openMiniCart = (props) => keyframes`
   from {
@@ -233,7 +233,7 @@ class MiniCart extends React.Component {
             <ProductDescription>
               <ProductName productName={item.title} />
               <ProductSku>GGG | Preto e Branco</ProductSku>
-              <ProductQty>Quantidade: 1</ProductQty>
+              <ProductQty>Quantidade: {item.quantidade}</ProductQty>
             </ProductDescription>
           </ProductLeft>
           <ProductRight>
