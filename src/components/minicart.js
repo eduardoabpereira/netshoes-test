@@ -232,7 +232,7 @@ class MiniCart extends React.Component {
             <CartImage image={cat} width={48} height={48} />
             <ProductDescription>
               <ProductName productName={item.title} />
-              <ProductSku>GGG | {item.style}</ProductSku>
+              <ProductSku>{`GGG | ${item.style}`}</ProductSku>
               <ProductQty>Quantidade: {item.quantidade}</ProductQty>
             </ProductDescription>
           </ProductLeft>
