@@ -58,6 +58,17 @@ const HandleMiniCart = styled.button`
   outline: none;
 `;
 
+const BlockContentCart = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+  display: ${p => p.isOpen ? 'block' : 'none'};
+`;
+
 class App extends React.PureComponent {
   state = {
     open: false,
@@ -169,15 +180,17 @@ class App extends React.PureComponent {
             )
           })}
         </Shelf>
-        <MiniCart
-          isOpen={open}
-          close={<Close onClick={() => this.setState({ open: false })}>X</Close>}
-          items={cart}
-          removeItem={this.removeItem}
-          subTotalCart={subTotalCart}
-          maxInstallments={this.getMaxInstallments()}
-          totalByInstallments={subTotalCart / this.getMaxInstallments()}
-        />
+        <BlockContentCart isOpen={open}>
+          <MiniCart
+            isOpen={open}
+            close={<Close onClick={() => this.setState({ open: false })}>X</Close>}
+            items={cart}
+            removeItem={this.removeItem}
+            subTotalCart={subTotalCart}
+            maxInstallments={this.getMaxInstallments()}
+            totalByInstallments={subTotalCart / this.getMaxInstallments()}
+          />
+        </BlockContentCart>
       </div>
     );
   }

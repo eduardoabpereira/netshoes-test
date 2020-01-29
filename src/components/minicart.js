@@ -29,6 +29,7 @@ const MiniCartWrapper = styled.div`
   display: ${p => p.isOpen ? 'block' : 'none'};
   animation: ${p => openMiniCart(p)} 1s ease-in-out;
   animation-fill-mode: forwards;
+  box-sizing: border-box;
 `;
 
 const CartTitle = styled.p`
