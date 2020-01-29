@@ -1,6 +1,6 @@
 /**
  * TODO:
- * + Implementar incremento de quantidade ao clicar no produto
+ * DONE Implementar incremento de quantidade ao clicar no produto
  *    Verificar se id adicionado já existe no cart e caso positivo, adicionar chave de quantidade.
  * + Implementar visual do carrinho
  * DONE Deixar carrinho fixed
