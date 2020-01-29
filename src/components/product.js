@@ -34,6 +34,13 @@ const ButtonBuy = styled.button`
   cursor: pointer;
 `;
 
+const PriceWithInstallments = styled.div`
+  display: block;
+  width: 100%;
+  text-align: center;
+  min-height: 45px;
+`;
+
 const Product = ({
   hasInstallment,
   price,
@@ -54,18 +61,20 @@ const Product = ({
   <ProductWrapper {...props}>
     <StyledImage image={image} />
     <StyledProductName productName={productName} />
-    <Price
-      currencyCode={currencyCode}
-      principalPrice={principalPrice}
-      restPrice={restPrice}
-    />
-    {hasInstallment && (
-      <Installment
-        price={price}
-        installment={installment}
+    <PriceWithInstallments>
+      <Price
         currencyCode={currencyCode}
+        principalPrice={principalPrice}
+        restPrice={restPrice}
       />
-    )}
+      {hasInstallment && (
+        <Installment
+          price={price}
+          installment={installment}
+          currencyCode={currencyCode}
+        />
+      )}
+    </PriceWithInstallments>
     {/* {hasUda && udas.map((uda, index) => (
       <Uda key={index} onClick={e => handleSelectUda(e, sku)} selected={udaSelected} sku={sku}>{uda}</Uda>
     ))} */}
