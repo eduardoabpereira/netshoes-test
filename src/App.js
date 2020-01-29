@@ -44,8 +44,10 @@ const Header = styled.div`
   display: block;
   background: black;
   color: white;
-  padding: 20px 0;
+  padding: 20px 3em 20px 0;
   margin-bottom: 30px;
+  text-align: right;
+  box-sizing: border-box;
 `;
 
 const HandleMiniCart = styled.button`
