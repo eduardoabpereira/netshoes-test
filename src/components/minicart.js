@@ -17,12 +17,13 @@ const openMiniCart = (props) => keyframes`
 `;
 
 const MiniCartWrapper = styled.div`
+  z-index: 20;
   position: absolute;
   right: 0;
   top: 0;
   bottom: 0;
   color: white;
-  background: #333;
+  background: #202025;
   height: 100%;
   padding-top: 3em;
   width: ${p => p.isOpen ? '40%' : '0'};
@@ -35,7 +36,11 @@ const MiniCartWrapper = styled.div`
 const CartTitle = styled.p`
   text-transform: uppercase;
   display: inline-block;
-  font: bold 18px Arial;
+  font: bold 18px 'Open Sans';
+  vertical-align: top;
+  height: 40px;
+  line-height: 40px;
+  margin-left: 1em;
 `;
 
 const CartHeader = styled.div`
@@ -45,15 +50,31 @@ const CartHeader = styled.div`
 `;
 
 const CartIco = styled.p`
+  background: url(${p => p.icoCart}) no-repeat center bottom;
+  position: relative;
+  width: 33px;
+  height: 40px;
   display: inline-block;
-  background: orange;
-  color: black;
-  text-align: center;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  line-height: 20px;
-  margin-right: 15px;
+  > span {
+    font: bold 12px 'Open Sans';
+    background: #dfbd00;
+    display: inline-block;
+    color: black;
+    text-align: center;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 15px;
+    position: absolute;
+    top: 70%;
+    left: 60%;
+  }
+`;
+
+const TitleEmptyCart = styled.span`
+  text-transform: uppercase;
+  font: bold 16px 'Open Sans';
 `;
 
 const CartBody = styled.div`
@@ -65,10 +86,11 @@ const CartBody = styled.div`
   `)}
   width: 100%;
   text-align: center;
-  font: 13px Arial;
+  font: 13px 'Open Sans';
   overflow: auto;
-  height: 228px;
+  height: 288px;
   padding-right: 10px;
+  margin-top: 40px;
   ::-webkit-scrollbar {
     width: 10px;
   }
@@ -100,14 +122,9 @@ const CartContent = styled.div`
   box-sizing: border-box;
 `;
 
-const CartClose = styled.div`
-  position: fixed;
-  top: 0;
-`;
-
 const ProductItem = styled.div`
-  padding: 10px 0;
-  border-bottom: 1px solid black;
+  padding: 15px 0 25px;
+  border-bottom: 2px solid #131316;
   text-align: left;
   display: flex;
   width: 100%;
@@ -126,7 +143,7 @@ const BuyButton = styled.button`
   text-align: center;
   padding: 15px 0;
   text-transform: uppercase;
-  font: 14px Arial;
+  font: bold 14px 'Open Sans';
   border: none;
   width: 100%;
   margin: 0 auto;
@@ -157,30 +174,35 @@ const ProductRight = styled.div`
 const ProductSku = styled.span`
   display: block;
   margin: 5px 0;
+  color: #999;
+  font: 12px/12px 'Open Sans';
 `;
 
 const ProductQty = styled.span`
   display: block;
+  color: #999;
+  font: 12px/12px 'Open Sans';
 `;
 
 const ProductRemove = styled.button`
   display: block;
-  background: none;
+  background: url(${p => p.icoCartClose}) no-repeat center;
+  width: 14px;
+  height: 14px;
   border: none;
-  color: black;
-  font: bold 12px Arial;
+  color: transparent;
   cursor: pointer;
   padding: 0;
   outline: none;
   &:hover {
-    color: white;
+    background: url(${p => p.icoCartCloseInverse}) no-repeat center;
   }
 `;
 
 const ProductPriceWrapper = styled.div`
   display: block;
-  color: orange;
-  font: 16px Arial;
+  color: #dfbd00;
+  font: 16px 'Open Sans';
 `;
 
 const ProductCurrency = styled.span`
@@ -205,7 +227,8 @@ const SubtotalPrincipalPrice = styled(ProductPrincipalPrice)``;
 const SubtotalRestPrice = styled(ProductRestPrice)``;
 const SubtotalTitle = styled.span`
   text-transform: uppercase;
-  color: lightgrey;
+  color: #999;
+  font: 14px 'Open Sans';
 `;
 
 const SubtotalWrapper = styled.div`
@@ -216,13 +239,26 @@ const SubtotalWrapper = styled.div`
   margin-bottom: 3em;
 `;
 
-const SubtotalInstallments = styled.span``;
+const StyledProductName = styled(ProductName)`
+  font: bold 14px/14px 'Open Sans';
+`;
+
+const SubtotalInstallments = styled.span`
+  color: #999;
+  font: 12px 'Open Sans';
+  text-transform: uppercase;
+`;
 
 const SubtotalWithInstallments = styled.div``;
 
 class MiniCart extends React.Component {
   renderCart() {
-    const { items, removeItem } = this.props;
+    const {
+      items,
+      removeItem,
+      icoCartClose,
+      icoCartCloseInverse
+    } = this.props;
 
     return items.map((item, index) => {
       const principalPrice = Math.floor(item.price);
@@ -232,13 +268,13 @@ class MiniCart extends React.Component {
           <ProductLeft>
             <CartImage image={cat} width={48} height={48} />
             <ProductDescription>
-              <ProductName productName={item.title} />
+              <StyledProductName productName={item.title} />
               <ProductSku>{`GGG | ${item.style}`}</ProductSku>
               <ProductQty>Quantidade: {item.quantidade}</ProductQty>
             </ProductDescription>
           </ProductLeft>
           <ProductRight>
-            <ProductRemove onClick={() => removeItem(item.sku)}>X</ProductRemove>
+            <ProductRemove icoCartClose={icoCartClose} icoCartCloseInverse={icoCartCloseInverse} onClick={() => removeItem(item.sku)}>X</ProductRemove>
             <ProductPriceWrapper>
               <ProductCurrency>{`R$ `}</ProductCurrency>
               <ProductPrincipalPrice>{principalPrice}</ProductPrincipalPrice>
@@ -257,21 +293,23 @@ class MiniCart extends React.Component {
       items,
       subTotalCart,
       maxInstallments,
-      totalByInstallments
+      totalByInstallments,
+      icoCart
     } = this.props;
 
     const subtotalPrincipalPrice = subTotalCart.toFixed(2).toString().split('.')[0];
     const subtotalRestPrice = (subTotalCart % 1).toFixed(2).substring(2);
     return (
       <MiniCartWrapper isOpen={isOpen}>
-        <CartClose>{close}</CartClose>
         <CartContent>
         <CartHeader>
-          <CartIco>{items.length}</CartIco>
+          <CartIco icoCart={icoCart}>
+            <span>{items.length}</span>
+          </CartIco>
           <CartTitle>Sacola</CartTitle>
         </CartHeader>
         <CartBody hasItems={items.length}>
-          {!items.length && 'Sua sacola está vazia!'}
+          {!items.length && <TitleEmptyCart>Sua sacola está vazia!</TitleEmptyCart>}
           {this.renderCart()}
         </CartBody>
         {items.length ? (

@@ -7,22 +7,27 @@ import ProductName from './product/productName';
 // import Uda from './product/selectUda';
 
 const ProductWrapper = styled.div`
-  width: 33%;
+  width: 100%;
   box-sizing: border-box;
   display: inline-block;
   text-align: center;
-  margin-bottom: 3em;
   vertical-align: top;
+  max-width: 250px;
+  padding: 20px;
 `;
 
 const StyledImage = styled(Image)`
   margin-bottom: 10px;
+  width: 100%;
 `;
 const StyledProductName = styled(ProductName)`
   margin-bottom: 10px;
+  font: 14px 'Open Sans';
+  color: #313135;
+  height: 38px;
 `;
 const ButtonBuy = styled.button`
-  width: 80%;
+  width: 100%;
   margin: 10px auto;
   background: black;
   color: white;
@@ -32,6 +37,7 @@ const ButtonBuy = styled.button`
   border: none;
   outline: none;
   cursor: pointer;
+  font: bold 14px 'Open Sans';
 `;
 
 const PriceWithInstallments = styled.div`

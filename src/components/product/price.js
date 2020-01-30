@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const PrincipalPrice = styled.h2`
   font-size: 1.3em;
   font-weight: bold;
-  border-top: 2px solid orange;
+  border-top: 2px solid #dfbd00;
   display: inline-block;
   padding-top: 7px;
 `;

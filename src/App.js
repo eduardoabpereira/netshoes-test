@@ -20,10 +20,12 @@ import Shelf from './components/shelf';
 import Product from './components/product';
 import MiniCart from './components/minicart';
 import cat from './cat.jpg';
+const assetsPath = `${process.env.PUBLIC_URL}/assets/`;
 
 const GlobalStyle = createGlobalStyle`
   body {
     position: relative;
+    font-family: 'Open Sans', Arial;
   }
 `;
 const Close = styled.p`
@@ -100,7 +102,12 @@ class App extends React.PureComponent {
     return this.setState({ subTotalCart: subtotal });
   }
 
-
+  /**
+   * Função responsável pro adicionar o produto ao carrinho
+   *  dentro dessa função há uma verificação de que se o produto já existe no carrinho
+   *  caso o produto exista, a função irá apenas incrementar a quantidade do produto existente
+   *  e se o produto não existir no carrinho, a função irá adicioná-lo.
+   */
   addProduct = (sku) => {
     const { products } = this.props;
     const { cart } = this.state;
@@ -118,11 +125,17 @@ class App extends React.PureComponent {
     return this.setState({ cart: [...newCart], open: true }, () => this.updateCart('add'))
   }
 
+  /**
+   * Função responsável por remover o item do carrinho
+   * Após clicar no X pra remover o produto do carrinho, essa função irá remover o item do array
+   * e adicionar o itens remanescentes novamente ao carrinho, sendo assim, essa função remove os itens desejados
+   * independente da quantidade que estiver adicionada do mesmo produto
+   */
   removeItem = (sku) => {
     const { cart } = this.state;
-    const remainedItems = cart.filter(item => item.sku !== sku);
+    const remainedItems = cart.filter(item => item.sku !== sku); // mantém os produtos que possuem sku diferente do informado
 
-    return this.setState({ cart: remainedItems }, () => this.updateCart('remove'));
+    return this.setState({ cart: remainedItems }, () => this.updateCart('remove')); // após removido, é invocada a função de atualizar carrinho para atualizar o preço subtotal do carrinho
   }
 
   getMaxInstallments() {
@@ -180,17 +193,18 @@ class App extends React.PureComponent {
             )
           })}
         </Shelf>
-        <BlockContentCart isOpen={open}>
-          <MiniCart
-            isOpen={open}
-            close={<Close onClick={() => this.setState({ open: false })}>X</Close>}
-            items={cart}
-            removeItem={this.removeItem}
-            subTotalCart={subTotalCart}
-            maxInstallments={this.getMaxInstallments()}
-            totalByInstallments={subTotalCart / this.getMaxInstallments()}
-          />
-        </BlockContentCart>
+        <BlockContentCart onClick={() => this.setState({ open: false })} isOpen={open} />
+        <MiniCart
+          isOpen={open}
+          items={cart}
+          removeItem={this.removeItem}
+          subTotalCart={subTotalCart}
+          maxInstallments={this.getMaxInstallments()}
+          totalByInstallments={subTotalCart / this.getMaxInstallments()}
+          icoCart={`${assetsPath}ico-cart.png`}
+          icoCartClose={`${assetsPath}ico-close.png`}
+          icoCartCloseInverse={`${assetsPath}ico-close-inverse.png`}
+        />
       </div>
     );
   }
