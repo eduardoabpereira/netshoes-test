@@ -2,6 +2,12 @@ Este projeto foi criado com [Create React App](https://github.com/facebook/creat
 
 ## Como executar o projeto
 
+No diretório do projeto, execute:
+
+### `npm install`
+
+Instala as dependências do projeto<br />
+
 No diretório do projeto, você pode executar:
 
 ### `npm start`
