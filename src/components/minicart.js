@@ -302,32 +302,32 @@ class MiniCart extends React.Component {
     return (
       <MiniCartWrapper isOpen={isOpen}>
         <CartContent>
-        <CartHeader>
-          <CartIco icoCart={icoCart}>
-            <span>{items.length}</span>
-          </CartIco>
-          <CartTitle>Sacola</CartTitle>
-        </CartHeader>
-        <CartBody hasItems={items.length}>
-          {!items.length && <TitleEmptyCart>Sua sacola está vazia!</TitleEmptyCart>}
-          {this.renderCart()}
-        </CartBody>
-        {items.length ? (
-          <CartFooter>
-            <SubtotalWrapper>
-              <SubtotalTitle>Subtotal</SubtotalTitle>
-              <SubtotalWithInstallments>
-                <SubtotalPriceWrapper>
-                  <SubtotalCurrency>{`R$ `}</SubtotalCurrency>
-                  <SubtotalPrincipalPrice>{subtotalPrincipalPrice}</SubtotalPrincipalPrice>
-                  <SubtotalRestPrice>{`,${subtotalRestPrice}`}</SubtotalRestPrice>
-                </SubtotalPriceWrapper>
-                <SubtotalInstallments>{`ou em até ${maxInstallments > 0 ? maxInstallments : 1}x R$ ${maxInstallments > 0 ? totalByInstallments.toFixed(2).replace('.', ',') : subTotalCart.toFixed(2).replace('.', ',')}`}</SubtotalInstallments>
-              </SubtotalWithInstallments>
-            </SubtotalWrapper>
-            <BuyButton hasItems={items.length}>Comprar</BuyButton>
-          </CartFooter>
-        ) : null}
+          <CartHeader>
+            <CartIco icoCart={icoCart}>
+              <span>{items.length}</span>
+            </CartIco>
+            <CartTitle>Sacola</CartTitle>
+          </CartHeader>
+          <CartBody hasItems={items.length}>
+            {!items.length && <TitleEmptyCart>Sua sacola está vazia!</TitleEmptyCart>}
+            {this.renderCart()}
+          </CartBody>
+          {items.length ? (
+            <CartFooter>
+              <SubtotalWrapper>
+                <SubtotalTitle>Subtotal</SubtotalTitle>
+                <SubtotalWithInstallments>
+                  <SubtotalPriceWrapper>
+                    <SubtotalCurrency>{`R$ `}</SubtotalCurrency>
+                    <SubtotalPrincipalPrice>{subtotalPrincipalPrice}</SubtotalPrincipalPrice>
+                    <SubtotalRestPrice>{`,${subtotalRestPrice}`}</SubtotalRestPrice>
+                  </SubtotalPriceWrapper>
+                  <SubtotalInstallments>{`ou em até ${maxInstallments > 0 ? maxInstallments : 1}x R$ ${maxInstallments > 0 ? totalByInstallments.toFixed(2).replace('.', ',') : subTotalCart.toFixed(2).replace('.', ',')}`}</SubtotalInstallments>
+                </SubtotalWithInstallments>
+              </SubtotalWrapper>
+              <BuyButton hasItems={items.length}>Comprar</BuyButton>
+            </CartFooter>
+          ) : null}
         </CartContent>
       </MiniCartWrapper>
     )

@@ -34,18 +34,42 @@ const Header = styled.div`
   display: block;
   background: black;
   color: white;
-  padding: 20px 3em 20px 0;
+  padding: 10px 3em 15px 0;
   margin-bottom: 30px;
   text-align: right;
   box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 `;
 
 const HandleMiniCart = styled.button`
-  background: none;
+  background: url(${p => p.icoCart}) no-repeat center bottom;
   border: none;
   color: white;
   cursor: pointer;
   outline: none;
+  position: relative;
+  width: 33px;
+  height: 30px;
+  display: inline-block;
+  background-size: 75%;
+  > span {
+    font: bold 12px 'Open Sans';
+    background: #dfbd00;
+    display: inline-block;
+    color: black;
+    text-align: center;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    margin-right: 15px;
+    position: absolute;
+    top: 70%;
+    left: 60%;
+  }
 `;
 
 const BlockContentCart = styled.div`
@@ -162,7 +186,9 @@ class App extends React.PureComponent {
         <Reset />
         <GlobalStyle />
         <Header>
-          <HandleMiniCart onClick={() => this.setState({ open: !open })} qty={cart.length}>{`Sacola(${cart.length})`}</HandleMiniCart>
+          <HandleMiniCart icoCart={`${assetsPath}ico-cart.png`} onClick={() => this.setState({ open: !open })} qty={cart.length}>
+            <span>{cart.length}</span>
+          </HandleMiniCart>
         </Header>
         <Shelf>
           {products.products.map(product => {
