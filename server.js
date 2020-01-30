@@ -8,12 +8,23 @@ app.use(cors());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
+// const whitelist = ['http://localhost:3000', 'http://localhost:5000']
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     if (whitelist.indexOf(origin) !== -1) {
+//       callback(null, true)
+//     } else {
+//       callback(new Error('Not allowed by CORS'))
+//     }
+//   }
+// }
+
 const baseDir = `${__dirname}/build/`;
 app.use(express.static(`${baseDir}`));
 
-app.get('/', (req,res) => res.sendFile('index.html' , { root : baseDir }))
+// app.get('/', (req,res) => res.sendFile('index.html' , { root : baseDir }))
 
-app.get('/api/products', (req, res) => {
+app.get('/api/**', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.sendFile(path.join(__dirname, 'products.json'));
 })
