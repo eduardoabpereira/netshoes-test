@@ -88,7 +88,7 @@ const CartBody = styled.div`
   text-align: center;
   font: 13px 'Open Sans';
   overflow: auto;
-  height: 288px;
+  height: 270px;
   padding-right: 10px;
   margin-top: 40px;
   ::-webkit-scrollbar {
