@@ -6,7 +6,7 @@
  * DONE Deixar carrinho fixed
  * DONE Implementar subtotal
  * + Implementar botão pra visualizar carrinho (header?)
- * + Implementar persistência do carrinho (localstorage)
+ * DONE Implementar persistência do carrinho (localstorage)
  * DONE Implementar remove from cart
  * + Implementar testes
  * + Documentação
@@ -74,20 +74,21 @@ const BlockContentCart = styled.div`
 class App extends React.PureComponent {
   state = {
     open: false,
-    cart: [],
+    cart: JSON.parse(window.localStorage.getItem('cart')) || [],
     subTotalCart: 0,
     selectedUda: []
   }
   componentDidMount() {
     const { dispatch } = this.props;
 
-    dispatch(getProducts())
+    dispatch(getProducts());
+    if (window && window.localStorage && window.localStorage.getItem('cart')) {
+      this.setState({ cart: JSON.parse(window.localStorage.getItem('cart')) }, () => this.updateCart())
+    }
   }
 
   updateCart = (action) => {
     const { cart } = this.state;
-
-    console.log('cart: ', cart)
 
     let subtotal = 0;
 
@@ -95,13 +96,16 @@ class App extends React.PureComponent {
       for (let i = 0; i < cart.length; i++) {
         subtotal += cart[i].price * cart[i].quantidade;
       }
-      return this.setState({ subTotalCart: subtotal });
+      this.setState({ subTotalCart: subtotal });
+      return window.localStorage.setItem('cart', JSON.stringify(cart));
     }
 
     for (let i = 0; i < cart.length; i++) {
       subtotal += cart[i].price * cart[i].quantidade;
     }
-    return this.setState({ subTotalCart: subtotal });
+    this.setState({ subTotalCart: subtotal });
+
+    return window.localStorage.setItem('cart', JSON.stringify(cart));
   }
 
   /**
