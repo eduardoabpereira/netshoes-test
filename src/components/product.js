@@ -4,7 +4,7 @@ import Image from './product/image';
 import Price from './product/price';
 import Installment from './product/installment';
 import ProductName from './product/productName';
-// import Uda from './product/selectUda';
+import Uda from './product/selectUda';
 
 const ProductWrapper = styled.div`
   width: 100%;
@@ -38,6 +38,10 @@ const ButtonBuy = styled.button`
   outline: none;
   cursor: pointer;
   font: bold 14px 'Open Sans';
+  &:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
 `;
 
 const PriceWithInstallments = styled.div`
@@ -81,10 +85,12 @@ const Product = ({
         />
       )}
     </PriceWithInstallments>
-    {/* {hasUda && udas.map((uda, index) => (
-      <Uda key={index} onClick={e => handleSelectUda(e, sku)} selected={udaSelected} sku={sku}>{uda}</Uda>
-    ))} */}
-    <ButtonBuy onClick={onClick}>Comprar</ButtonBuy>
+    <div>
+      {hasUda && udas.map((uda, index) => (
+        <Uda key={index} onClick={e => handleSelectUda(e, sku)} selected={udaSelected} sku={sku}>{uda}</Uda>
+      ))}
+    </div>
+    <ButtonBuy onClick={onClick} disabled={!udaSelected.length}>Comprar</ButtonBuy>
   </ProductWrapper>
 )
 

@@ -2,7 +2,7 @@
  * TODO:
  * DONE Implementar incremento de quantidade ao clicar no produto
  *    Verificar se id adicionado já existe no cart e caso positivo, adicionar chave de quantidade.
- * + Implementar visual do carrinho
+ * DONE Implementar visual do carrinho
  * DONE Deixar carrinho fixed
  * DONE Implementar subtotal
  * + Implementar botão pra visualizar carrinho (header?)
@@ -76,7 +76,7 @@ class App extends React.PureComponent {
     open: false,
     cart: [],
     subTotalCart: 0,
-    selectedUda: {}
+    selectedUda: []
   }
   componentDidMount() {
     const { dispatch } = this.props;
@@ -86,6 +86,8 @@ class App extends React.PureComponent {
 
   updateCart = (action) => {
     const { cart } = this.state;
+
+    console.log('cart: ', cart)
 
     let subtotal = 0;
 
@@ -110,11 +112,12 @@ class App extends React.PureComponent {
    */
   addProduct = (sku) => {
     const { products } = this.props;
-    const { cart } = this.state;
+    const { cart, selectedUda } = this.state;
     const fromProduct = products.products.filter(product => product.sku === sku);
     fromProduct[0].quantidade = 1;
+    fromProduct[0].selectedSize = selectedUda[0].size;
     const add = cart.length ?
-      cart.map(item => item.sku === sku ? {...item, quantidade: item.quantidade + 1} : item) : fromProduct[0];
+      cart.map(item => item.sku === sku ? {...item, quantidade: item.quantidade + 1, selectedSize: selectedUda[0].size} : item) : fromProduct[0];
     const hasInCart = cart.some(el => el.sku === sku)
     const newCart = hasInCart ? [...add] : [...cart, ...fromProduct]
 
@@ -144,14 +147,15 @@ class App extends React.PureComponent {
     return Math.max.apply(Math, cart.map(item => item.installments))
   }
 
-  // handleSelectUda(e, sku) {
-  //   const { products } = this.props;
-  //   const { selectedUda } = this.state;
-  //   return products.products.map(product => {
-  //     console.log('teste: ', selectedUda)
-  //     return product.sku === sku && product.availableSizes.includes(e.target.value) && this.setState({ selectedUda: { sku, size: e.target.value } })
-  //   });
-  // }
+  handleSelectUda(e, sku) {
+    const { selectedUda } = this.state;
+
+    const changeUda = selectedUda.map(uda => uda.sku === sku ? {...uda, size: e.target.value } : uda);
+    const hasUda = selectedUda.some(el => el.sku === sku);
+    const newUda = hasUda ? [...changeUda] : [...selectedUda, { sku, size: e.target.value }]
+
+    return this.setState({ selectedUda: [...newUda] }, () => console.log('teste', selectedUda))
+  }
 
   render() {
     const { products } = this.props;
@@ -184,11 +188,11 @@ class App extends React.PureComponent {
                 restPrice={restPrice}
                 currencyCode={product.currencyFormat}
                 onClick={() => this.addProduct(product.sku)}
-                // hasUda={product.availableSizes.length}
-                // udas={product.availableSizes}
-                // handleSelectUda={this.handleSelectUda.bind(this)}
-                // udaSelected={selectedUda}
-                // sku={product.sku}
+                hasUda={product.availableSizes.length}
+                udas={product.availableSizes}
+                handleSelectUda={this.handleSelectUda.bind(this)}
+                udaSelected={selectedUda}
+                sku={product.sku}
               />
             )
           })}
