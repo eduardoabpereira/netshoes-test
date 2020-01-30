@@ -27,7 +27,8 @@
     "build": "react-scripts build",
     "serve": "serve -s build",
     "prod": "run-p build server serve -- -{1} -- s",
-    "test": "react-scripts test",
+    "reacttest": "react-scripts test",
+    "test": "run-p server reacttest",
     "eject": "react-scripts eject"
   },
   "proxy": "http://localhost:3001",
@@ -45,5 +46,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-test-renderer": "^16.12.0"
   }
 }

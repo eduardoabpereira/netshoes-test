@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders App correctly 1`] = `
+<div
+  className="App"
+>
+  <div
+    className="sc-fzXfNM zKxUe"
+  >
+    <button
+      className="sc-fzXfNN dlJzkY"
+      onClick={[Function]}
+    >
+      <span>
+        0
+      </span>
+    </button>
+  </div>
+  <div
+    className="sc-AykKC ehMZfx"
+  />
+  <div
+    className="sc-fzXfNO dzoUUq"
+    onClick={[Function]}
+  />
+  <div
+    className="sc-fzXfLR dXGQcU"
+  >
+    <div
+      className="sc-fzXfMv iWovzS"
+    >
+      <div
+        className="sc-fzXfLT fZWfyt"
+      >
+        <p
+          className="sc-fzXfLU hzoVnR"
+        >
+          <span>
+            0
+          </span>
+        </p>
+        <p
+          className="sc-fzXfLS avZfZ"
+        >
+          Sacola
+        </p>
+      </div>
+      <div
+        className="sc-fzXfLW kARusy"
+      >
+        <span
+          className="sc-fzXfLV iGmNhN"
+        >
+          Sua sacola está vazia!
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+`;
