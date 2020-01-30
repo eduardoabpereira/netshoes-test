@@ -28,18 +28,6 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Open Sans', Arial;
   }
 `;
-const Close = styled.p`
-  color: white;
-  font: bold 14px Arial;
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  line-height: 30px;
-  cursor: pointer;
-  position: absolute;
-  left: 0;
-  top: 0;
-`;
 
 const Header = styled.div`
   width: 100%;
