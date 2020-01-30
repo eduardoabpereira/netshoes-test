@@ -252,6 +252,10 @@ const SubtotalInstallments = styled.span`
 const SubtotalWithInstallments = styled.div``;
 
 class MiniCart extends React.Component {
+  /**
+   * @method renderCart
+   * @description renderiza os itens do carrinho
+   */
   renderCart() {
     const {
       items,
@@ -286,10 +290,13 @@ class MiniCart extends React.Component {
     })
   }
 
+  /**
+   * @method render
+   * @description renderiza o carrinho (a.k.a minicart)
+   */
   render() {
     const {
       isOpen,
-      close,
       items,
       subTotalCart,
       maxInstallments,

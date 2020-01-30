@@ -13,6 +13,13 @@ const StyledSmall = styled.small`
   font-size: 0.8em;
 `;
 
+/**
+ * @method Price
+ * @param {*} currencyCode moeda do preço do produto
+ * @param {*} principalPrice inteiro do preço do produto
+ * @param {*} restPrice resto do preço do produto
+ * @description componente do preço do produto
+ */
 const Price = ({ currencyCode, principalPrice, restPrice }) => (
   <>
     <StyledSmall>

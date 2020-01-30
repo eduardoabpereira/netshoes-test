@@ -99,6 +99,11 @@ class App extends React.PureComponent {
     }
   }
 
+  /**
+   * @method updateCart
+   * @param action recebe a ação executada no carrinho (add ou remove)
+   * @description atualiza o subtotal e adiciona o carrinho no localStorage para persistência
+   */
   updateCart = (action) => {
     const { cart } = this.state;
 
@@ -121,10 +126,9 @@ class App extends React.PureComponent {
   }
 
   /**
-   * Função responsável pro adicionar o produto ao carrinho
-   *  dentro dessa função há uma verificação de que se o produto já existe no carrinho
-   *  caso o produto exista, a função irá apenas incrementar a quantidade do produto existente
-   *  e se o produto não existir no carrinho, a função irá adicioná-lo.
+   * @method addProduct
+   * @param {*} sku sku do produto
+   * @description adiciona ou atualiza o produto no carrinho se já existir
    */
   addProduct = (sku) => {
     const { products } = this.props;
@@ -145,24 +149,32 @@ class App extends React.PureComponent {
   }
 
   /**
-   * Função responsável por remover o item do carrinho
-   * Após clicar no X pra remover o produto do carrinho, essa função irá remover o item do array
-   * e adicionar o itens remanescentes novamente ao carrinho, sendo assim, essa função remove os itens desejados
-   * independente da quantidade que estiver adicionada do mesmo produto
+   * @method removeItem
+   * @param {*} sku sku do produto
+   * @description remove o item especificado pelo sku informado no parâmetro
    */
   removeItem = (sku) => {
     const { cart } = this.state;
-    const remainedItems = cart.filter(item => item.sku !== sku); // mantém os produtos que possuem sku diferente do informado
+    const remainedItems = cart.filter(item => item.sku !== sku);
 
-    return this.setState({ cart: remainedItems }, () => this.updateCart('remove')); // após removido, é invocada a função de atualizar carrinho para atualizar o preço subtotal do carrinho
+    return this.setState({ cart: remainedItems }, () => this.updateCart('remove'));
   }
 
+  /**
+   * @method getMaxInstallments
+   * @description Verifica em cada item do carrinho qual a maior parcela disponível para exibir no subtotal
+   */
   getMaxInstallments() {
     const { cart } = this.state;
 
     return Math.max.apply(Math, cart.map(item => item.installments))
   }
 
+  /**
+   * @method handleSelectUda
+   * @param {*} e event
+   * @param {*} sku sku do produto
+   */
   handleSelectUda(e, sku) {
     const { selectedUda } = this.state;
 

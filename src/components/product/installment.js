@@ -9,6 +9,13 @@ const WithBold = styled.strong`
   font-weight: bold;
 `;
 
+/**
+ * @method Installment
+ * @param {*} currencyCode
+ * @param {*} installment quantidade de parcelas disponíveis para o produto
+ * @param {*} price preço do produto
+ * @description componente de parcelas do produto
+ */
 const Installment = ({ currencyCode, installment, price }) => (
   <StyledInstallments>
     {`ou ${installment}x `}

@@ -51,6 +51,26 @@ const PriceWithInstallments = styled.div`
   min-height: 45px;
 `;
 
+
+/**
+ * @method Product
+ * @param {*} hasInstallment verifica se existe parcela pra esse produto
+ * @param {*} price preço do produto
+ * @param {*} principalPrice inteiro do preço do produto
+ * @param {*} restPrice resto do preço do produto
+ * @param {*} image imagem do produto
+ * @param {*} installment quantidade de parcelas
+ * @param {*} productName nome do produto
+ * @param {*} currencyCode moeda do preço do produto
+ * @param {*} hasUda verifica se o produto possui variação
+ * @param {*} udas variações do produto
+ * @param {*} handleSelectUda seleciona variação do produto
+ * @param {*} onClick muda a variação do produto
+ * @param {*} sku sku do produto
+ * @param {*} udaSelected variação do produto selecionada
+ * @param {*} props rest props
+ * @description componente do produto
+ */
 const Product = ({
   hasInstallment,
   price,
@@ -90,7 +110,7 @@ const Product = ({
         <Uda key={index} onClick={e => handleSelectUda(e, sku)} selected={udaSelected} sku={sku}>{uda}</Uda>
       ))}
     </div>
-    <ButtonBuy onClick={onClick} disabled={!udaSelected.length}>Comprar</ButtonBuy>
+    <ButtonBuy onClick={onClick}>Comprar</ButtonBuy>
   </ProductWrapper>
 )
 

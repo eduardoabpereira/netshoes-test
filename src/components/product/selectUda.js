@@ -27,6 +27,15 @@ const InvisibleInput = styled.input`
   padding: 0;
 `;
 
+/**
+ * @method Uda
+ * @param {*} children children
+ * @param {*} className class de estilos do componente
+ * @param {*} selected variação selecionada
+ * @param {*} onClick muda a variação do produto
+ * @param {*} sku sku do produto
+ * @description componente de variações do produto
+ */
 const Uda = ({ children, className, selected, onClick, sku }) => {
   const selectedUda = selected.map(el => el.sku === sku && el.size === children && el).filter(filtered => filtered !== false);
   return (

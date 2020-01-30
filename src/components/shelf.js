@@ -9,6 +9,11 @@ const Wrapper = styled.div`
   padding-top: 50px;
 `;
 
+/**
+ * @method Shelf
+ * @param {*} children children
+ * @description renderiza a prateleira
+ */
 const Shelf = ({ children }) => (
   <Wrapper>
     {children}
