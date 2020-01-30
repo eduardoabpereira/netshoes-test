@@ -1,6 +1,6 @@
 Este projeto foi criado com [Create React App](https://github.com/facebook/create-react-app).
 
-## Como abrir o projeto
+## Como executar o projeto
 
 No diretório do projeto, você pode executar:
 
