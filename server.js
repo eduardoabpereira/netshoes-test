@@ -1,6 +1,5 @@
 const express = require('express');
 const path = require('path');
-// const proxy = require("http-proxy-middleware");
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -8,7 +7,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-// app.use(proxy('/api/**', { target: 'https://netshoes-frontend-edu.herokuapp.com' }));
 
 const baseDir = `${__dirname}/build/`;
 app.use(express.static(`${baseDir}`));

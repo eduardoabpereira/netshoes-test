@@ -8,7 +8,6 @@
     "@testing-library/user-event": "^7.2.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
-    "http-proxy-middleware": "^0.20.0",
     "npm-run-all": "^4.1.5",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -25,10 +24,11 @@
     "client": "react-scripts start",
     "start": "run-p server client",
     "build": "react-scripts build",
-    "prod": "run-p server build",
+    "prod": "run-p build server start",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:3001",
   "eslintConfig": {
     "extends": "react-app"
   },
