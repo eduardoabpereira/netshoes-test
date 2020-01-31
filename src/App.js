@@ -1,16 +1,3 @@
-/**
- * TODO:
- * DONE Implementar incremento de quantidade ao clicar no produto
- *    Verificar se id adicionado já existe no cart e caso positivo, adicionar chave de quantidade.
- * DONE Implementar visual do carrinho
- * DONE Deixar carrinho fixed
- * DONE Implementar subtotal
- * + Implementar botão pra visualizar carrinho (header?)
- * DONE Implementar persistência do carrinho (localstorage)
- * DONE Implementar remove from cart
- * + Implementar testes
- * + Documentação
- */
 import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { connect } from 'react-redux';
@@ -133,11 +120,12 @@ class App extends React.PureComponent {
   addProduct = (sku) => {
     const { products } = this.props;
     const { cart, selectedUda } = this.state;
+    console.log('uda selecionada', selectedUda)
     const fromProduct = products.products.filter(product => product.sku === sku);
     fromProduct[0].quantidade = 1;
-    fromProduct[0].selectedSize = selectedUda.length ? selectedUda[0].size : fromProduct[0].availableSizes[0];
+    fromProduct[0].selectedSize = selectedUda.length ? selectedUda.filter(sel => sel.sku === sku)[0].size : fromProduct[0].availableSizes[0];
     const add = cart.length ?
-      cart.map(item => item.sku === sku ? {...item, quantidade: item.quantidade + 1, selectedSize: selectedUda[0].size} : item) : fromProduct[0];
+      cart.map(item => item.sku === sku ? {...item, quantidade: item.quantidade + 1, selectedSize: selectedUda.filter(sel => sel.sku === sku)[0].size} : item) : fromProduct[0];
     const hasInCart = cart.some(el => el.sku === sku)
     const newCart = hasInCart ? [...add] : [...cart, ...fromProduct]
 
@@ -182,7 +170,7 @@ class App extends React.PureComponent {
     const hasUda = selectedUda.some(el => el.sku === sku);
     const newUda = hasUda ? [...changeUda] : [...selectedUda, { sku, size: e.target.value }]
 
-    return this.setState({ selectedUda: [...newUda] }, () => console.log('teste', selectedUda))
+    return this.setState({ selectedUda: [...newUda] })
   }
 
   render() {
