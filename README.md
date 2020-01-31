@@ -27,10 +27,12 @@ Inicia os testes.
 
 Builda o projeto para produção dentro da pasta `build`.
 
-Abra [http://localhost:5000](http://localhost:5000) para ver o projeto no browser (modo produção).<br />
-
 O build será minificado.<br />
 O projeto estará pronto para ser deployado em produção!
+
+### `npm run prod`
+
+Abra [http://localhost:5000](http://localhost:5000) para ver o projeto no browser (modo produção).<br />
 
 #### Atenção
 
