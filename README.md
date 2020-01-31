@@ -27,5 +27,11 @@ Inicia os testes.
 
 Builda o projeto para produção dentro da pasta `build`.
 
+Abra [http://localhost:5000](http://localhost:5000) para ver o projeto no browser (modo produção).<br />
+
 O build será minificado.<br />
 O projeto estará pronto para ser deployado em produção!
+
+#### Atenção
+
+É necessário adicionar um arquivo `.env` e incluir a linha `REACT_APP_API_URL=http://localhost:3001` para funcionamento correto da aplicação
