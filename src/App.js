@@ -135,7 +135,7 @@ class App extends React.PureComponent {
     const { cart, selectedUda } = this.state;
     const fromProduct = products.products.filter(product => product.sku === sku);
     fromProduct[0].quantidade = 1;
-    fromProduct[0].selectedSize = selectedUda[0].size;
+    fromProduct[0].selectedSize = selectedUda.length ? selectedUda[0].size : fromProduct[0].availableSizes[0];
     const add = cart.length ?
       cart.map(item => item.sku === sku ? {...item, quantidade: item.quantidade + 1, selectedSize: selectedUda[0].size} : item) : fromProduct[0];
     const hasInCart = cart.some(el => el.sku === sku)
