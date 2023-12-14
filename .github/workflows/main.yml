@@ -7,6 +7,9 @@ on:
 
 jobs:
   deploy:
+    permissions:
+      id-token: write
+      pages: write
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
@@ -21,4 +24,4 @@ jobs:
         uses: actions/deploy-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          publish_dir: ./public
