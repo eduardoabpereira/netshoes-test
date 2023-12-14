@@ -7,6 +7,9 @@ on:
 
 jobs:
   deploy:
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
     permissions:
       id-token: write
       pages: write
@@ -20,20 +23,15 @@ jobs:
         run: |
           npm ci
           npm run build
+      - name: Configure Artifact
+        uses: actions/configure-pages@v1
       - name: Upload Artifact
         uses: actions/upload-artifact@master
         with:
             name: github-pages
             path: ./build
             if-no-files-found: error
-      - uses: actions/configure-pages@v1
-      - uses: actions/upload-pages-artifact@v1
-        with:
-          path: .
       - name: Deploy to gh-pages
-        env:
-          name: github-pages
-          url: ${{steps.deployment.outputs.page_url}}
         uses: actions/deploy-pages@v3
         with:
           artifact_name: github-pages
