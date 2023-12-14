@@ -23,10 +23,8 @@ jobs:
         run: |
           npm ci
           npm run build
-      - name: Configure Artifact
-        uses: actions/configure-pages@v1
       - name: Upload Artifact
-        uses: actions/upload-artifact@master
+        uses: actions/upload-artifact@v3
         with:
             name: github-pages
             path: ./build
