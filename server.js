@@ -15,7 +15,7 @@ app.get('/', (req,res) => res.sendFile('index.html' , { root : baseDir }))
 
 app.get('/api/**', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  res.sendFile(path.join(__dirname, '/public/data/', 'products.json'));
+  res.sendFile(path.join(__dirname, '/build/data/', 'products.json'));
 })
 
 app.listen(process.env.PORT || 3001, () => {
