@@ -20,6 +20,12 @@ jobs:
         run: |
           npm ci
           npm run build
+      - name: Upload Artifact
+        uses: actions/upload-artifact@master
+        with:
+            name: page
+            path: build
+            if-no-files-found: error
       - name: Deploy to gh-pages
         uses: actions/deploy-pages@v3
         with:
