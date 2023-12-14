@@ -28,7 +28,7 @@ Inicia os testes.
 Builda o projeto para produção dentro da pasta `build`.
 
 O build será minificado.<br />
-O projeto estará pronto para ser deployado em produção!
+O projeto estará pronto para ser deployado em produção!!
 
 ### `npm run prod`
 
